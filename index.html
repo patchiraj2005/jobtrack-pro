@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobTrack Pro Colourful</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+body{background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height:100vh; background-attachment:fixed; color:#fff}
+#loginScreen{height:100vh;display:flex;justify-content:center;align-items:center}
+.login-card{background:#fff;padding:35px;border-radius:20px;width:380px;text-align:center;box-shadow:0 15px 35px rgba(0,0,0,0.3);color:#000}
+.login-card input{width:100%;padding:12px;margin:8px 0;background:#f1f5f9;border:2px solid #ddd;border-radius:10px}
+.login-card button{width:100%;padding:12px;background: linear-gradient(90deg, #667eea, #764ba2); border:0; border-radius:10px; color:#fff; font-weight:800; cursor:pointer}
+.navbar{display:flex;align-items:center;padding:14px 20px;background:#fff;color:#000;border-radius:0 0 16px 16px;box-shadow:0 4px 15px rgba(0,0,0,0.1)}
+.nav-right{margin-left:auto;display:flex;gap:8px}
+.nav-right button{padding:7px 14px;border-radius:20px;border:0;font-weight:700;cursor:pointer}
+.container{display:flex;gap:18px;padding:18px;flex-wrap:wrap}
+.left{flex:1;min-width:320px;max-width:440px}.right{flex:2;min-width:360px}
+.card{background:#fff;padding:18px;border-radius:18px;margin-bottom:16px;box-shadow:0 8px 25px rgba(0,0,0,0.15);color:#000}
+.card input,.card select,.card textarea{width:100%;padding:10px;margin-top:8px;background:#f8fafc;border:2px solid #e2e8f0;border-radius:10px;color:#000}
+.row2{display:flex;gap:8px}.lbl{font-size:11px;color:#888;margin-top:4px;display:block;font-weight:600}
+.btn-add{width:100%;margin-top:12px;background: linear-gradient(90deg, #667eea, #764ba2); color:#fff; border:0; padding:13px; border-radius:12px; font-weight:800; cursor:pointer; font-size:15px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.stat{flex:1;min-width:70px;padding:12px;border-radius:14px;text-align:center;color:#fff;font-weight:800}
+.stat:nth-child(1){background: linear-gradient(135deg, #667eea, #764ba2);}
+.stat:nth-child(2){background: linear-gradient(135deg, #f59e0b, #ef4444);}
+.stat:nth-child(3){background: linear-gradient(135deg, #06b6d4, #3b82f6);}
+.stat:nth-child(4){background: linear-gradient(135deg, #10b981, #059669);}
+.stat:nth-child(5){background: linear-gradient(135deg, #ef4444, #dc2626);}
+.job{background:#fff;padding:14px;border-radius:16px;margin-bottom:12px;display:flex;justify-content:space-between;color:#000;box-shadow:0 5px 15px rgba(0,0,0,0.1)}
+.badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:800;color:#fff}
+.Applied{background:#64748b}.Shortlisted{background:#f59e0b}.Interview{background:#06b6d4}.Selected{background:#10b981}.Rejected{background:#ef4444}
+</style>
+</head>
+<body>
+<div id="loginScreen"><div class="login-card"><h2 style="color:#667eea">🚀 JobTrack Pro</h2><p style="color:#888;font-size:13px">Colourful Version</p><input id="logEmail" placeholder="📧 Email"><input id="logPass" type="password" placeholder="Password"><button onclick="doLogin()">Login / Register</button></div></div>
+<div id="appScreen" style="display:none">
+<div class="navbar"><b>🚀 JobTrack <span style="color:#764ba2">Pro Colour</span></b><small id="userShow" style="margin-left:10px;color:#888"></small><div class="nav-right"><button onclick="showReminders()" style="background:#fef08a">🔔 Reminder</button><button onclick="doLogout()" style="background:#fecaca">Logout</button></div></div>
+<div class="container"><div class="left"><div class="card"><b>➕ Add job application</b><input id="company" placeholder="🏢 Company"><input id="role" placeholder="💻 Role"><div class="row2"><input id="location" placeholder="📍 Location"><input id="salary" placeholder="💰 Salary"></div><div class="row2"><input id="appliedDate" type="date"><select id="status"><option>Applied</option><option>Shortlisted</option><option>Interview</option><option>Selected</option><option>Rejected</option></select></div><input id="jobUrl" placeholder="🔗 URL"><input id="resume" type="file"><span class="lbl">📎 Resume upload</span><textarea id="notes" placeholder="📝 Notes"></textarea><input id="interviewDt" type="datetime-local"><span class="lbl">📅 Interview Date</span><button class="btn-add" onclick="addJob()">Add Job</button></div>
+<div class="card"><b>📈 Dashboard</b><div class="stats"><div class="stat"><small>Total</small><div id="d1">0</div></div><div class="stat"><small>Shortlist</small><div id="d2">0</div></div><div class="stat"><small>Interview</small><div id="d3">0</div></div><div class="stat"><small>Selected</small><div id="d4">0</div></div><div class="stat"><small>Rejected</small><div id="d5">0</div></div></div><hr style="margin:12px 0"><b>📅 Calendar</b><div id="calendar" style="font-size:12px;color:#f59e0b;margin-top:6px"></div><hr style="margin:12px 0"><b>📧 Email Log</b><div id="emailLog" style="font-size:11px;color:#888;max-height:80px;overflow:auto"></div></div></div>
+<div class="right"><div style="display:flex;gap:8px;margin-bottom:10px"><input id="search" onkeyup="render()" placeholder="🔍 Search" style="flex:1;padding:10px;border-radius:12px;border:0"><select id="fStatus" onchange="render()" style="padding:10px;border-radius:12px;border:0"><option value="All">All</option><option>Applied</option><option>Shortlisted</option><option>Interview</option><option>Selected</option><option>Rejected</option></select></div><div id="jobList"></div></div></div>
+</div>
+<script>
+let jobs=JSON.parse(localStorage.getItem('jt_color')||'[]');let curUser=localStorage.getItem('jt_u_color')||'';const $=id=>document.getElementById(id);
+function doLogin(){if(!$('logEmail').value)return alert('Email');localStorage.setItem('jt_u_color',$('logEmail').value);location.reload()}
+function doLogout(){localStorage.removeItem('jt_u_color');location.reload()}
+function init(){curUser=localStorage.getItem('jt_u_color')||'';if(!curUser){$('loginScreen').style.display='flex';$('appScreen').style.display='none'}else{$('loginScreen').style.display='none';$('appScreen').style.display='block';$('userShow').innerText=curUser;render()}}init();
+function addJob(){if(!$('company').value||!$('role').value)return alert('Company & Role');let r=$('resume').files[0]?.name||'No file';let j={id:Date.now(),user:curUser,company:$('company').value,role:$('role').value,location:$('location').value,salary:$('salary').value,appliedDate:$('appliedDate').value||new Date().toLocaleDateString(),status:$('status').value,url:$('jobUrl').value,resume:r,notes:$('notes').value,interviewDt:$('interviewDt').value};jobs.unshift(j);localStorage.setItem('jt_color',JSON.stringify(jobs));log(`Added ${j.company}`);render();$('company').value=$('role').value=$('location').value=$('salary').value=$('jobUrl').value=$('notes').value='';}
+function render(){let my=jobs.filter(j=>j.user==curUser);let q=$('search').value.toLowerCase();let f=$('fStatus').value;let fil=my.filter(j=>(f=='All'||j.status==f)&&(j.company.toLowerCase().includes(q)||j.role.toLowerCase().includes(q)));$('jobList').innerHTML=fil.map(j=>`<div class="job"><div><b>🏢 ${j.company}</b> - ${j.role} <span class="badge ${j.status}">${j.status}</span><br><small>📍${j.location} | 💰${j.salary} | 📅${j.appliedDate} | 📄${j.resume}</small><br><small>🔗 <a href="${j.url}" target="_blank">${j.url||'-'}</a> | 📝${j.notes}</small>${j.interviewDt?`<br><small style="color:#f59e0b">📅 ${j.interviewDt}</small>`:''}</div><div style="text-align:right"><select onchange="upSt(${j.id},this.value)"><option hidden>${j.status}</option><option>Applied</option><option>Shortlisted</option><option>Interview</option><option>Selected</option><option>Rejected</option></select><br><button onclick="delJ(${j.id})" style="margin-top:6px;background:#ef4444;color:#fff;border:0;padding:5px 10px;border-radius:6px">X</button></div></div>`).join('')||'<p style="text-align:center;margin-top:40px;color:#fff">No jobs</p>';$('d1').innerText=my.length;$('d2').innerText=my.filter(x=>x.status=='Shortlisted').length;$('d3').innerText=my.filter(x=>x.status=='Interview').length;$('d4').innerText=my.filter(x=>x.status=='Selected').length;$('d5').innerText=my.filter(x=>x.status=='Rejected').length;$('calendar').innerHTML=my.filter(x=>x.interviewDt).map(x=>`• ${x.company} - ${x.interviewDt}<br>`).join('')||'No interviews';}
+function upSt(id,s){let j=jobs.find(x=>x.id==id);j.status=s;localStorage.setItem('jt_color',JSON.stringify(jobs));log(`${j.company} -> ${s}`);render()}
+function delJ(id){jobs=jobs.filter(x=>x.id!=id);localStorage.setItem('jt_color',JSON.stringify(jobs));render()}
+function log(t){$('emailLog').innerHTML=`<div>${new Date().toLocaleTimeString()} - ${t}</div>`+$('emailLog').innerHTML}
+function showReminders(){let up=jobs.filter(j=>j.user==curUser&&j.interviewDt);alert(up.length?up.map(j=>`${j.company} - ${j.interviewDt}`).join('\n'):'No reminders')}
+</script>
+</body>
+</html>
